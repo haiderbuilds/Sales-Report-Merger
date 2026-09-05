@@ -40,5 +40,23 @@ def transform_row(raw_row: dict, mapping: dict, default_region: str, row_num: in
         bad_rev = standard.get("revenue")
         standard["revenue"] = 0.0
         logging.warning(f"Invalid revenue in row {row_num}: {bad_rev}")
-        
+
     return standard
+
+def validate_row(row: dict, row_num: int) -> bool:
+    """Validate a standard row."""
+    product = str(row.get("product") or "").strip()
+    if not product:
+        logging.warning(f"Row {row_num}: missing product")
+        return False
+
+    quantity = row.get("quantity", 0)
+    if quantity is None or quantity <= 0:
+        logging.warning(f"Row {row_num}: invalid quantity {quantity}")
+        return False
+    revenue = row.get("revenue", 0.0)
+    if revenue is None or revenue <= 0:
+        logging.warning(f"Row {row_num}: invalid revenue {revenue}")
+        return False
+
+    return True
