@@ -1,5 +1,6 @@
 import csv
 import logging
+from collections import Counter
 
 try:
     from .config import STANDARD_FIELDS
@@ -97,11 +98,9 @@ def write_summary(summary_file: str, stats: dict, total_rows: int):
             writer.writerow([])
 
         writer.writerow(["Overall Top Products"])
-        all_products = {}
+        all_products = Counter()
         for region, data in stats.items():
-            for product, qty in data.get("products", {}).items():
-                all_products[product] = all_products.get(product, 0) + qty
+            all_products.update(data.get("products", {}))
 
-        top_all = sorted(all_products.items(), key=lambda x: x[1], reverse=True)[:5]
-        for product, qty in top_all:
+        for product, qty in all_products.most_common(5):
             writer.writerow([product, qty])
