@@ -1,6 +1,6 @@
 import csv
 import logging
-from src.config import STANDARD_FIELDS
+from .config import STANDARD_FIELDS
 
 def detect_region(filename: str) -> str:
     """Detect region from filename."""
@@ -23,24 +23,24 @@ def transform_row(raw_row: dict, mapping: dict, default_region: str, row_num: in
             standard[standard_key] = raw_row[raw_key]
 
     if not standard.get("region"):
-        standard["region"] = default_region
+        standard["region"] = default_region or mapping.get("region_default", "Unknown")
 
     if not standard.get("salesperson"):
         standard["salesperson"] = mapping.get("salesperson_default", "Unknown")
 
+    raw_quantity = standard.get("quantity")
     try:
-        standard["quantity"] = int(float(standard.get("quantity", 0)))
+        standard["quantity"] = int(float(raw_quantity)) if raw_quantity not in ("", None) else 0
     except (ValueError, TypeError):
-        bad_qty = standard.get("quantity")
         standard["quantity"] = 0
-        logging.warning(f"Invalid quantity in row {row_num}: {bad_qty}")
+        logging.warning(f"Invalid quantity in row {row_num}: {raw_quantity}")
 
+    raw_revenue = standard.get("revenue")
     try:
-        standard["revenue"] = round(float(standard.get("revenue", 0.0)), 2)
+        standard["revenue"] = round(float(raw_revenue), 2) if raw_revenue not in ("", None) else 0.0
     except (ValueError, TypeError):
-        bad_rev = standard.get("revenue")
         standard["revenue"] = 0.0
-        logging.warning(f"Invalid revenue in row {row_num}: {bad_rev}")
+        logging.warning(f"Invalid revenue in row {row_num}: {raw_revenue}")
 
     return standard
 
