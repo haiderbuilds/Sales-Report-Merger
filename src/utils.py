@@ -19,7 +19,7 @@ def transform_row(raw_row: dict, mapping: dict, default_region: str, row_num: in
     standard = {field: "" for field in STANDARD_FIELDS}
 
     for raw_key, standard_key in mapping.items():
-        if raw_key in raw_row and raw_key != "region_default":
+        if raw_key in raw_row and not raw_key.endswith("_default"):
             standard[standard_key] = raw_row[raw_key]
 
     if not standard.get("region"):
