@@ -1,6 +1,10 @@
 import csv
 import logging
-from .config import STANDARD_FIELDS
+
+try:
+    from .config import STANDARD_FIELDS
+except ImportError:
+    from config import STANDARD_FIELDS
 
 def detect_region(filename: str) -> str:
     """Detect region from filename."""
