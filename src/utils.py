@@ -26,7 +26,7 @@ def transform_row(raw_row: dict, mapping: dict, default_region: str, row_num: in
         standard["region"] = default_region
 
     if not standard.get("salesperson"):
-        standard["salesperson"] = mapping.get("salesperson.default", "Unknown")
+        standard["salesperson"] = mapping.get("salesperson_default", "Unknown")
 
     try:
         standard["quantity"] = int(float(standard.get("quantity", 0)))
