@@ -1,6 +1,7 @@
 import csv
 import logging
 from collections import Counter
+from decimal import Decimal, InvalidOperation
 
 try:
     from .config import STANDARD_FIELDS
@@ -42,9 +43,9 @@ def transform_row(raw_row: dict, mapping: dict, default_region: str, row_num: in
 
     raw_revenue = standard.get("revenue")
     try:
-        standard["revenue"] = round(float(raw_revenue), 2) if raw_revenue not in ("", None) else 0.0
-    except (ValueError, TypeError):
-        standard["revenue"] = 0.0
+        standard["revenue"] = Decimal(str(raw_revenue)) if raw_revenue not in ("", None) else Decimal("0.00")
+    except (InvalidOperation, ValueError, TypeError):
+        standard["revenue"] = Decimal("0.00")
         logging.warning(f"Invalid revenue in row {row_num}: {raw_revenue}")
 
     return standard
