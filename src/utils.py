@@ -77,7 +77,7 @@ def write_summary(summary_file: str, stats: dict, total_rows: int):
         for region, data in stats.items():
             transactions = data.get("transactions", 0)
             revenue = data.get("revenue", 0.0)
-            avg = round(revenue / transactions if transactions > 0 else 0.0, 2)
+            avg = round(revenue / transactions, 2) if transactions > 0 else 0.0
             writer.writerow([region, f"${revenue:,.2f}", transactions, f"${avg:,.2f}"])
 
         writer.writerow([])
