@@ -121,11 +121,7 @@ def merge_sales_reports(
                     {"revenue": Decimal("0.00"), "transactions": 0, "products": {}},
                 )
                 
-                revenue_val = row["revenue"]
-                if not isinstance(revenue_val, Decimal):
-                    revenue_val = Decimal(str(revenue_val))
-
-                stats["revenue"] += revenue_val
+                stats["revenue"] += row["revenue"]
                 stats["transactions"] += 1
                 
                 product = row["product"]
