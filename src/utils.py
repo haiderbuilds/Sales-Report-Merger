@@ -2,11 +2,7 @@ import csv
 import logging
 from collections import Counter
 from decimal import Decimal, InvalidOperation
-
-try:
-    from .config import STANDARD_FIELDS
-except ImportError:
-    from config import STANDARD_FIELDS
+from .config import STANDARD_FIELDS
 
 def detect_region(filename: str) -> str:
     """Detect region from filename."""
