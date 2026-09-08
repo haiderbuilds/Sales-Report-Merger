@@ -91,9 +91,8 @@ def write_summary(summary_file: str, stats: dict, total_rows: int):
         writer.writerow([])
         for region, data in stats.items():
             writer.writerow([f"--- {region} ---"])
-            products = data.get("products", {})
-            top_products = sorted(products.items(), key=lambda x: x[1], reverse=True)[:3]
-            for product, qty in top_products:
+            products = Counter(data.get("products", {}))
+            for product, qty in products.most_common(3):
                 writer.writerow([product, qty])
             writer.writerow([])
 
