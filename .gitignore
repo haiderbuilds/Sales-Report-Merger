@@ -1,6 +1,7 @@
 # Python cache
 __pycache__/
 *.py[cod]
+*$py.class
 
 # Virtual environments
 venv/
@@ -11,7 +12,7 @@ env/
 .env
 .env.*
 
-# IDE/editor files
+# IDE / editor files
 .vscode/
 .idea/
 
@@ -19,20 +20,28 @@ env/
 .DS_Store
 Thumbs.db
 
-# Test/coverage files
+# Test & coverage artifacts
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Build files
+# Build & package distribution
 build/
 dist/
 *.egg-info/
 
-# Data files
-data/*
-!data/.gitkeep
-*.csv
+# Logs
+*.log
+merge_errors.log
+
+# Generated outputs & data
+data/*.csv
+data/output/*
+!data/output/.gitkeep
+consolidated_sales.csv
+summary_dashboard.csv
+
+# Ignore spreadsheet formats outside sample fixtures
 *.xlsx
 *.xls
 *.json
